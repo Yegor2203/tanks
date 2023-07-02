@@ -21,13 +21,21 @@ class Player(GameSprite):
             self.rect.y -= self.speed
         if keys[K_DOWN] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
-        if keys[K_LEFT]
+        if keys[K_LEFT] and self.rect.x > 5:
+            self.rect.x = self.rect.x - self.speed
+        if keys[K_RIGHT] and self.rect.x < win_width - 80:
+            self.rect.x = self.rect.x + self.speed
+
     def update_l(self):
         keys = key.get_pressed()
         if keys[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
         if keys[K_s] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
+        if keys[K_a] and self.rect.x > 5:
+            self.rect.x = self.rect.x - self.speed
+        if keys[K_d] and self.rect.x < win_width - 80:
+            self.rect.x = self.rect.x + self.speed
         
     def fire_r(self):
         bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 15, 20, -15)
@@ -62,16 +70,6 @@ font.init()
 Myfont = font.Font(None, 36)
 lose1 = Myfont.render('PLAYER 1 LOSE!', True, (180, 0, 0))
 lose2 = Myfont.render('PLAYER 2 LOE!', True, (180, 0, 0))
-
-class Bullet(GameSprite):
-    def update(self):
-        self.rect.y += self.speed
-        if self.rect.y < 0:
-            self.kill() 
-            
-            def fire(self):
-                bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 15, 20, -15)
-                bullets.add(bullet) 
 
 while game:
     for e in event.get():

@@ -1,5 +1,9 @@
 from pygame import *
 
+mixer.init()
+fire_sound = mixer.Sound('fire.ogg')
+fire_sound.set_volume(0.3)
+
 img_bullet = 'bullet.png'
 
 class GameSprite(sprite.Sprite):
@@ -47,9 +51,9 @@ class Player(GameSprite):
 
 class Bullet(GameSprite):
     def update(self):
-        self.rect.y += self.speed
-        if self.rect.y < 0:
-            self.kill() 
+        self.rect.x -= self.speed
+        if self.rect.x < 0:
+            self.kill()
 
 back = (200, 255, 255)
 win_width = 600
@@ -58,9 +62,10 @@ display.set_caption("Tanks")
 window = display.set_mode((win_width, win_height))
 window.fill(back)
 
-tank = Player("tank.png", 30, 200, 2, 50, 150)
-tank1 = Player("tank1.png", 520, 200, 2, 50, 150)
-bullet = Bullet("bullet.png", 200, 200, 1, 50, 50)
+tank = Player("tank.png", 30, 200, 2, 50, 10)
+tank1 = Player("tank1.png", 520, 200, 2, 50, 10)
+bullets = sprite.Group()
+ 
 
 finish = False
 game = True
@@ -75,14 +80,21 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
+    
+        if e.type == KEYDOWN:
+            if e.key == K_SPACE:
+                fire_sound.play()
+                tank.fire_l()
 
     if finish != True:
         window.fill(back)
         tank.update_l()
         tank1.update_r()
+        bullets.update()
         
         tank.reset()
         tank1.reset()
+        bullets.draw(window)
 
     display.update()
     clock.tick(40)

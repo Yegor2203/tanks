@@ -4,7 +4,15 @@ mixer.init()
 fire_sound = mixer.Sound('fire.ogg')
 fire_sound.set_volume(0.3)
 
+font.init()
+font2 = font.SysFont('Arial', 90)
+font_finall = font.Font(None, 90)
+win = font_finall.render("You win", True, (9, 184, 228))
+
+
 img_bullet = 'bullet.png'
+
+HP = 100
 
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
@@ -65,7 +73,6 @@ window.fill(back)
 tank = Player("tank.png", 30, 200, 2, 50, 10)
 tank1 = Player("tank1.png", 520, 200, 2, 50, 10)
 bullets = sprite.Group()
- 
 
 finish = False
 game = True
@@ -85,6 +92,15 @@ while game:
             if e.key == K_SPACE:
                 fire_sound.play()
                 tank.fire_l()
+    if not finish:                
+        if sprite.spritecollide(tank1, bullets, True) or sprite.spritecollide(tank1, bullets, False):
+            HP = HP - 20
+            print(HP)
+        
+        if HP == 0:
+            window.blit(win, (100, 100))
+            print("You win")
+    
 
     if finish != True:
         window.fill(back)
@@ -95,6 +111,7 @@ while game:
         tank.reset()
         tank1.reset()
         bullets.draw(window)
-
+ 
+        
     display.update()
-    clock.tick(40)
+    clock.tick(60)

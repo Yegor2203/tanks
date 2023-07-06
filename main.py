@@ -13,6 +13,7 @@ win = font_finall.render("You win", True, (9, 184, 228))
 img_bullet = 'bullet.png'
 
 HP = 100
+HP_l = 100
 
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
@@ -93,10 +94,10 @@ while game:
             game = False
     
         if e.type == KEYDOWN:
-            if e.key == K_2:
+            if e.key == K_1:
                 fire_sound.play()
                 tank.fire_l()
-            if e.key == K_1:
+            if e.key == K_9:
                 fire_sound.play()
                 tank1.fire_r()
                 
@@ -105,13 +106,19 @@ while game:
             HP = HP - 20
             print(HP)
         
-        if sprite.spritecollide(tank, bullets_r, False) or sprite.spritecollide(tank, bullets_r, True):
-            HP = HP - 20
-            print(HP)
+        if sprite.spritecollide(tank, bullets_r, True) or sprite.spritecollide(tank, bullets_r, False):
+            HP_l = HP_l - 20
+            print(HP_l)
+
         if HP == 0:
-            win = font2.render("You win", True, (9, 184, 228))
+            win = font2.render("Player 1 win", True, (9, 184, 228))
             window.blit(win, (100, 100))
-            print("You win")
+            finish = True
+            
+        if HP_l == 0:
+            win = font2.render("Player 2 win", True, (9, 184, 228))
+            window.blit(win, (100, 100))
+            finish = True
     
 
     if finish != True:

@@ -50,18 +50,25 @@ class Player(GameSprite):
             self.rect.x = self.rect.x + self.speed
         
     def fire_r(self):
-        bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 15, 20, -15)
-        bullets.add(bullet)
+        bullet = Bullet_1(img_bullet, self.rect.centerx, self.rect.top, 15, 20, -15)
+        bullets_r.add(bullet)
 
     def fire_l(self):
-        bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 15, 20, -15)
-        bullets.add(bullet)
+        bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 585, 20, -15)
+        bullets_l.add(bullet)
 
 class Bullet(GameSprite):
     def update(self):
         self.rect.x -= self.speed
         if self.rect.x < 0:
             self.kill()
+
+class Bullet_1(GameSprite):
+    def update(self):
+        self.rect.x += self.speed
+        if self.rect.x < 0:
+            self.kill()
+
 
 back = (200, 255, 255)
 win_width = 600
@@ -72,16 +79,13 @@ window.fill(back)
 
 tank = Player("tank.png", 30, 200, 2, 50, 10)
 tank1 = Player("tank1.png", 520, 200, 2, 50, 10)
-bullets = sprite.Group()
+bullets_l = sprite.Group()
+bullets_r = sprite.Group()
 
 finish = False
 game = True
 clock = time.Clock()
 
-font.init()
-Myfont = font.Font(None, 36)
-lose1 = Myfont.render('PLAYER 1 LOSE!', True, (180, 0, 0))
-lose2 = Myfont.render('PLAYER 2 LOE!', True, (180, 0, 0))
 
 while game:
     for e in event.get():
@@ -89,15 +93,23 @@ while game:
             game = False
     
         if e.type == KEYDOWN:
-            if e.key == K_SPACE:
+            if e.key == K_2:
                 fire_sound.play()
                 tank.fire_l()
+            if e.key == K_1:
+                fire_sound.play()
+                tank1.fire_r()
+                
     if not finish:                
-        if sprite.spritecollide(tank1, bullets, True) or sprite.spritecollide(tank1, bullets, False):
+        if sprite.spritecollide(tank1, bullets_l, True) or sprite.spritecollide(tank1, bullets_l, False):
             HP = HP - 20
             print(HP)
         
+        if sprite.spritecollide(tank, bullets_r, False) or sprite.spritecollide(tank, bullets_r, True):
+            HP = HP - 20
+            print(HP)
         if HP == 0:
+            win = font2.render("You win", True, (9, 184, 228))
             window.blit(win, (100, 100))
             print("You win")
     
@@ -106,12 +118,13 @@ while game:
         window.fill(back)
         tank.update_l()
         tank1.update_r()
-        bullets.update()
+        bullets_l.update()
+        bullets_r.update()
         
+        bullets_r.draw(window)
         tank.reset()
         tank1.reset()
-        bullets.draw(window)
- 
+        bullets_l.draw(window)
         
     display.update()
     clock.tick(60)

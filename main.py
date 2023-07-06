@@ -12,6 +12,7 @@ win = font_finall.render("You win", True, (9, 184, 228))
 
 img_bullet = 'bullet.png'
 
+
 HP = 100
 HP_l = 100
 
@@ -100,8 +101,8 @@ while game:
             if e.key == K_9:
                 fire_sound.play()
                 tank1.fire_r()
-                
-    if not finish:                
+    if not finish:  
+                     
         if sprite.spritecollide(tank1, bullets_l, True) or sprite.spritecollide(tank1, bullets_l, False):
             HP = HP - 20
             print(HP)
@@ -120,7 +121,13 @@ while game:
             window.blit(win, (100, 100))
             finish = True
     
-
+        
+        text_hp = font2.render("HP: " + str(HP), True, (139, 0, 0))
+        window.blit(text_hp, (10, 20))
+        
+        text_hp_l = font2.render("HP: " + str(HP_l), True, (139, 0, 0))
+        window.blit(text_hp_l, (380, 20))
+        
     if finish != True:
         window.fill(back)
         tank.update_l()

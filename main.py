@@ -11,7 +11,7 @@ win = font_finall.render("You win", True, (9, 184, 228))
 
 
 img_bullet = 'bullet.png'
-
+img_superbullet = 'superbullet.png'
 
 HP = 100
 HP_l = 100
@@ -59,6 +59,14 @@ class Player(GameSprite):
         bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 585, 20, -15)
         bullets_l.add(bullet)
 
+    def superfire_r(self):
+        bullet = Super_Bullet_1(img_superbullet, self.rect.centerx, self.rect.top, 15, 20, -15)
+        superbullets_r.add(bullet)
+
+    def superfire_l(self):
+        bullet = Super_Bullet(img_superbullet, self.rect.centerx, self.rect.top, 585, 20, -15)
+        superbullets_l.add(bullet)
+
 class Bullet(GameSprite):
     def update(self):
         self.rect.x -= self.speed
@@ -66,6 +74,18 @@ class Bullet(GameSprite):
             self.kill()
 
 class Bullet_1(GameSprite):
+    def update(self):
+        self.rect.x += self.speed
+        if self.rect.x < 0:
+            self.kill()
+
+class Super_Bullet(GameSprite):
+    def update(self):
+        self.rect.x -= self.speed
+        if self.rect.x < 0:
+            self.kill()
+
+class Super_Bullet_1(GameSprite):
     def update(self):
         self.rect.x += self.speed
         if self.rect.x < 0:
@@ -83,7 +103,8 @@ tank = Player("tank.png", 30, 200, 2, 50, 10)
 tank1 = Player("tank1.png", 520, 200, 2, 50, 10)
 bullets_l = sprite.Group()
 bullets_r = sprite.Group()
-
+superbullets_l = sprite.Group()
+superbullets_r = sprite.Group()
 finish = False
 game = True
 clock = time.Clock()
@@ -101,6 +122,12 @@ while game:
             if e.key == K_9:
                 fire_sound.play()
                 tank1.fire_r()
+            if e.key == K_3:
+                fire_sound.play()
+                tank.superfire_l()
+            if e.key == K_7:
+                fire_sound.play()
+                tank1.superfire_r()
     if not finish:  
                      
         if sprite.spritecollide(tank1, bullets_l, True) or sprite.spritecollide(tank1, bullets_l, False):
@@ -108,25 +135,39 @@ while game:
             print(HP)
         
         if sprite.spritecollide(tank, bullets_r, True) or sprite.spritecollide(tank, bullets_r, False):
-            HP_l = HP_l - 20
+            HP = HP - 20
+            print(HP)
+        
+        if sprite.spritecollide(tank, superbullets_r, True) or sprite.spritecollide(tank, superbullets_r, False):
+            HP = HP - 50
+            print(HP)
+        if sprite.spritecollide(tank1, superbullets_l, True) or sprite.spritecollide(tank1, superbullets_l, False):
+            HP_l = HP_l - 50
             print(HP_l)
 
+    
         if HP == 0:
-            win = font2.render("Player 1 win", True, (9, 184, 228))
-            window.blit(win, (100, 100))
-            finish = True
+            if HP == -20:
+                if HP == -40:
+                    if HP == -60:
+                        win = font2.render("Player 1 win", True, (9, 184, 228))
+                        window.blit(win, (100, 100))
+                        finish = True
             
-        if HP_l == 0:
-            win = font2.render("Player 2 win", True, (9, 184, 228))
-            window.blit(win, (100, 100))
-            finish = True
+        if HP == 0:
+            if HP == -20:
+                if HP == -40:
+                    if HP == -60:
+                        win = font2.render("Player 2 win", True, (9, 184, 228))
+                        window.blit(win, (100, 100))
+                        finish = True
     
         
         text_hp = font2.render("HP: " + str(HP), True, (139, 0, 0))
         window.blit(text_hp, (10, 20))
         
         text_hp_l = font2.render("HP: " + str(HP_l), True, (139, 0, 0))
-        window.blit(text_hp_l, (380, 20))
+        window.blit(text_hp_l, (330, 20))
         
     if finish != True:
         window.fill(back)
@@ -134,11 +175,15 @@ while game:
         tank1.update_r()
         bullets_l.update()
         bullets_r.update()
-        
+        superbullets_r.update()
+        superbullets_l.update()
+
         bullets_r.draw(window)
         tank.reset()
         tank1.reset()
         bullets_l.draw(window)
+        superbullets_r.draw(window)
+        superbullets_l.draw(window)
         
     display.update()
     clock.tick(60)

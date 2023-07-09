@@ -91,6 +91,27 @@ class Super_Bullet_1(GameSprite):
         if self.rect.x < 0:
             self.kill()
 
+class Wall(sprite.Sprite):
+    def __init__(self, color_1, color_2, color_3, x, y, widht, height):
+        super().__init__
+        self.color_1 = color_1
+        self.color_2 = color_2
+        self.color_3 = color_3
+        self.widht = widht
+        self.height = height
+        self.x = x
+        self.y = y
+
+        self.image = Surface((self.widht, self.height))
+        self.image.fill((color_1, color_2, color_3))
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def draw_wall(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
 
 back = (200, 255, 255)
 win_width = 600
@@ -147,27 +168,16 @@ while game:
 
     
         if HP == 0:
-            if HP == -20:
-                if HP == -40:
-                    if HP == -60:
-                        win = font2.render("Player 1 win", True, (9, 184, 228))
-                        window.blit(win, (100, 100))
-                        finish = True
+            win = font2.render("Player 1 win", True, (9, 184, 228))
+            window.blit(win, (100, 100))
+            finish = True
             
         if HP == 0:
-            if HP == -20:
-                if HP == -40:
-                    if HP == -60:
-                        win = font2.render("Player 2 win", True, (9, 184, 228))
-                        window.blit(win, (100, 100))
-                        finish = True
-    
+            win = font2.render("Player 2 win", True, (9, 184, 228))
+            window.blit(win, (100, 100))
+            finish = Tru
         
-        text_hp = font2.render("HP: " + str(HP), True, (139, 0, 0))
-        window.blit(text_hp, (10, 20))
         
-        text_hp_l = font2.render("HP: " + str(HP_l), True, (139, 0, 0))
-        window.blit(text_hp_l, (330, 20))
         
     if finish != True:
         window.fill(back)
@@ -184,6 +194,12 @@ while game:
         bullets_l.draw(window)
         superbullets_r.draw(window)
         superbullets_l.draw(window)
+        
+        text_hp = font2.render("HP: " + str(HP), True, (139, 0, 0))
+        window.blit(text_hp, (10, 20))
+        
+        text_hp_l = font2.render("HP: " + str(HP_l), True, (139, 0, 0))
+        window.blit(text_hp_l, (330, 20))
         
     display.update()
     clock.tick(60)

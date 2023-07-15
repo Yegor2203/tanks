@@ -18,6 +18,7 @@ img_superbullet_2 = 'superbullet1.png'
 
 HP = 100
 HP_l = 100
+HP_min = 0
 
 class GameSprite(sprite.Sprite):
 
@@ -167,10 +168,16 @@ while game:
             window.blit(win, (100, 100))
             finish = True
         
-        if HP >= 0:
+        if HP <= HP_min:
+            win = font2.render("Player 1 win", True, (9, 184, 228))
             window.blit(win, (100, 100))
-            
+            finish = True
         
+        if HP_l <= HP_min:
+            win = font2.render("Player 2 win", True, (9, 184, 228))
+            window.blit(win, (100, 100))
+            finish = True
+            
         
     if finish != True:
         window.fill(back)

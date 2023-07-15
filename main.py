@@ -10,8 +10,10 @@ font_finall = font.Font(None, 90)
 win = font_finall.render("You win", True, (9, 184, 228))
 
 
-img_bullet = 'bullet.png'
-img_superbullet = 'superbullet.png'
+img_bullet_1 = 'bullet.png'
+img_bullet_2 = 'bullet_1.png'
+img_superbullet_1 = 'superbullet.png'
+img_superbullet_2 = 'superbullet1.png'
 
 HP = 100
 HP_l = 100
@@ -52,19 +54,19 @@ class Player(GameSprite):
             self.rect.x = self.rect.x + self.speed
         
     def fire_r(self):
-        bullet = Bullet_1(img_bullet, self.rect.centerx, self.rect.top, 15, 20, -15)
+        bullet = Bullet_1(img_bullet_2, self.rect.centerx, self.rect.top, 15, 20, -15)
         bullets_r.add(bullet)
 
     def fire_l(self):
-        bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 585, 20, -15)
+        bullet = Bullet(img_bullet_1, self.rect.centerx, self.rect.top, 585, 20, -15)
         bullets_l.add(bullet)
 
     def superfire_r(self):
-        bullet = Super_Bullet_1(img_superbullet, self.rect.centerx, self.rect.top, 15, 20, -15)
+        bullet = Super_Bullet_1(img_superbullet_1, self.rect.centerx, self.rect.top, 15, 20, -15)
         superbullets_r.add(bullet)
 
     def superfire_l(self):
-        bullet = Super_Bullet(img_superbullet, self.rect.centerx, self.rect.top, 585, 20, -15)
+        bullet = Super_Bullet(img_superbullet_2, self.rect.centerx, self.rect.top, 585, 20, -15)
         superbullets_l.add(bullet)
 
 class Bullet(GameSprite):
@@ -152,18 +154,18 @@ while game:
     if not finish:  
                      
         if sprite.spritecollide(tank1, bullets_l, True) or sprite.spritecollide(tank1, bullets_l, False):
-            HP = HP - 20
-            print(HP)
+            HP_l = HP_l - 20
+            print(HP_l)
         
         if sprite.spritecollide(tank, bullets_r, True) or sprite.spritecollide(tank, bullets_r, False):
             HP = HP - 20
             print(HP)
         
         if sprite.spritecollide(tank, superbullets_r, True) or sprite.spritecollide(tank, superbullets_r, False):
-            HP = HP - 50
+            HP = HP - 40
             print(HP)
         if sprite.spritecollide(tank1, superbullets_l, True) or sprite.spritecollide(tank1, superbullets_l, False):
-            HP_l = HP_l - 50
+            HP_l = HP_l - 40
             print(HP_l)
 
     
@@ -172,11 +174,14 @@ while game:
             window.blit(win, (100, 100))
             finish = True
             
-        if HP == 0:
+        if HP_l == 0:
             win = font2.render("Player 2 win", True, (9, 184, 228))
             window.blit(win, (100, 100))
-            finish = Tru
+            finish = True
         
+        if HP >= 0:
+            window.blit(win, (100, 100))
+            
         
         
     if finish != True:

@@ -1,5 +1,6 @@
 from pygame import *
 
+
 mixer.init()
 fire_sound = mixer.Sound('fire.ogg')
 fire_sound.set_volume(0.3)
@@ -19,6 +20,7 @@ HP = 100
 HP_l = 100
 
 class GameSprite(sprite.Sprite):
+
     def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
         sprite.Sprite.__init__(self)
         self.image = image.load(player_image)
@@ -31,6 +33,7 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
 class Player(GameSprite):
+
     def update_r(self):
         keys = key.get_pressed()
         if keys[K_UP] and self.rect.y > 5:
@@ -93,26 +96,6 @@ class Super_Bullet_1(GameSprite):
         if self.rect.x < 0:
             self.kill()
 
-class Wall(sprite.Sprite):
-    def __init__(self, color_1, color_2, color_3, x, y, widht, height):
-        super().__init__
-        self.color_1 = color_1
-        self.color_2 = color_2
-        self.color_3 = color_3
-        self.widht = widht
-        self.height = height
-        self.x = x
-        self.y = y
-
-        self.image = Surface((self.widht, self.height))
-        self.image.fill((color_1, color_2, color_3))
-
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-    def draw_wall(self):
-        window.blit(self.image, (self.rect.x, self.rect.y))
 
 
 back = (200, 255, 255)
@@ -128,12 +111,14 @@ bullets_l = sprite.Group()
 bullets_r = sprite.Group()
 superbullets_l = sprite.Group()
 superbullets_r = sprite.Group()
+
 finish = False
 game = True
 clock = time.Clock()
 
 
 while game:
+
     for e in event.get():
         if e.type == QUIT:
             game = False
@@ -142,12 +127,15 @@ while game:
             if e.key == K_1:
                 fire_sound.play()
                 tank.fire_l()
+
             if e.key == K_9:
                 fire_sound.play()
                 tank1.fire_r()
+
             if e.key == K_3:
                 fire_sound.play()
                 tank.superfire_l()
+
             if e.key == K_7:
                 fire_sound.play()
                 tank1.superfire_r()
@@ -186,6 +174,7 @@ while game:
         
     if finish != True:
         window.fill(back)
+
         tank.update_l()
         tank1.update_r()
         bullets_l.update()
@@ -193,10 +182,11 @@ while game:
         superbullets_r.update()
         superbullets_l.update()
 
-        bullets_r.draw(window)
+        
         tank.reset()
         tank1.reset()
         bullets_l.draw(window)
+        bullets_r.draw(window)
         superbullets_r.draw(window)
         superbullets_l.draw(window)
         

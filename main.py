@@ -2,6 +2,9 @@ from pygame import *
 
 
 mixer.init()
+mixer.music.load('space.ogg')
+mixer_music.set_volume(0.3)
+mixer.music.play()
 fire_sound = mixer.Sound('fire.ogg')
 fire_sound.set_volume(0.3)
 

@@ -2,9 +2,6 @@ from pygame import *
 
 
 mixer.init()
-mixer.music.load('space.ogg')
-mixer_music.set_volume(0.3)
-mixer.music.play()
 fire_sound = mixer.Sound('fire.ogg')
 fire_sound.set_volume(0.3)
 
@@ -21,7 +18,7 @@ img_superbullet_2 = 'superbullet1.png'
 
 HP = 100
 HP_l = 100
-HP_min = 0
+
 
 class GameSprite(sprite.Sprite):
 
@@ -171,12 +168,12 @@ while game:
             window.blit(win, (100, 100))
             finish = True
         
-        if HP <= HP_min:
+        if HP <= 0:
             win = font2.render("Player 1 win", True, (9, 184, 228))
             window.blit(win, (100, 100))
             finish = True
         
-        if HP_l <= HP_min:
+        if HP_l <= 0:
             win = font2.render("Player 2 win", True, (9, 184, 228))
             window.blit(win, (100, 100))
             finish = True

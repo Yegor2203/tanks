@@ -133,15 +133,15 @@ while game:
                 fire_sound.play()
                 tank1.fire_r()
 
-            if e.key == K_3:
+            if e.key == K_2:
                 fire_sound.play()
                 tank.superfire_l()
 
-            if e.key == K_7:
+            if e.key == K_8:
                 fire_sound.play()
                 tank1.superfire_r()
+
     if not finish:  
-                     
         if sprite.spritecollide(tank1, bullets_l, True) or sprite.spritecollide(tank1, bullets_l, False):
             HP_l = HP_l - 20
             print(HP_l)
@@ -159,22 +159,22 @@ while game:
 
     
         if HP == 0:
-            win = font2.render("Player 1 win", True, (9, 184, 228))
+            win = font2.render("Player 2 win", True, (9, 184, 228))
             window.blit(win, (100, 100))
             finish = True
             
         if HP_l == 0:
-            win = font2.render("Player 2 win", True, (9, 184, 228))
-            window.blit(win, (100, 100))
-            finish = True
-        
-        if HP <= 0:
             win = font2.render("Player 1 win", True, (9, 184, 228))
             window.blit(win, (100, 100))
             finish = True
         
-        if HP_l <= 0:
+        if HP <= 0:
             win = font2.render("Player 2 win", True, (9, 184, 228))
+            window.blit(win, (100, 100))
+            finish = True
+        
+        if HP_l <= 0:
+            win = font2.render("Player 1 win", True, (9, 184, 228))
             window.blit(win, (100, 100))
             finish = True
             
